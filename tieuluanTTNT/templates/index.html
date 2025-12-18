@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Emotion Detector - Camera & Upload</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --success-color: #2ecc71;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px; /* Tăng độ rộng để chứa cả 2 phần */
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Chia bố cục 2 cột cho Desktop */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-box {
+            border: 1px solid #eee;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: #fafafa;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 0;
+        }
+
+        .upload-section {
+            border: 2px dashed #ccc;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .upload-section:hover {
+            border-color: var(--primary-color);
+        }
+
+        input[type="file"] {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        /* Style cho Camera */
+        .camera-stream {
+            width: 100%;
+            border-radius: 8px;
+            border: 3px solid var(--success-color);
+            background: #000;
+        }
+
+        .result-card {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .emotion-label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AI Emotion Recognition</h1>
+    <p class="subtitle">Phát hiện cảm xúc qua Hình ảnh hoặc Camera trực tiếp</p>
+
+    <div class="main-layout">
+        
+        <div class="section-box">
+            <h2>Cách 1: Tải ảnh lên</h2>
+            <form action="/" method="post" enctype="multipart/form-data">
+                <div class="upload-section">
+                    <input type="file" name="file" accept="image/*" required>
+                    <button type="submit">Phân tích ảnh</button>
+                </div>
+            </form>
+
+            {% if label %}
+            <div class="result-card">
+                <div class="emotion-label">{{ label }}</div>
+                <img src="{{ image_path }}" class="preview-img" alt="Kết quả">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="section-box">
+            <h2>Cách 2: Camera Real-time</h2>
+            <p style="font-size: 13px; color: #888;">AI sẽ tự động nhận diện khuôn mặt bạn qua ống kính</p>
+            <img src="{{ url_for('video_feed') }}" class="camera-stream" alt="Luồng Camera">
+            <p style="font-size: 12px; color: var(--success-color); margin-top: 5px;">● Đang truyền trực tiếp...</p>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Đồ án Trí Tuệ Nhân Tạo - Flask & FER Library<br>
+        (Lưu ý: Camera yêu cầu quyền truy cập trình duyệt)
+    </div>
+</div>
+
+</body>
+</html>
